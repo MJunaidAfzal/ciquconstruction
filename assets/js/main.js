@@ -21,23 +21,23 @@
      ======================================================= */
   const range = n => Array.from({ length: n }, (_, i) => i + 1);
   const PROJECTS = [
-    { key: 'saratoga', name: 'Saratoga Bamboo House', files: range(9).map(i => `gallery/saratago-bamboo-house/${i}_ciqu_construction_califonia_luxry.jpg`) },
-    { key: 'bridge', name: 'Bridge House', files: range(3).map(i => `gallery/bridge-house/${i}-ciqu_construction_califonia_luxry.jpg`) },
-    { key: 'woodside-adu', name: 'Woodside ADU', files: range(17).map(i => `gallery/phillips-adu/${i}.jpg`) },
-    { key: 'palo-alto-remodel', name: 'Palo Alto Remodel', files: range(9).map(i => `gallery/palo-alto-remodel/${i}_ciqu_construction_luxury_home_building.jpg`) },
-    { key: 'atherton', name: 'Atherton Contemporary', files: range(10).map(i => `gallery/atherton-contemporary/${i}.jpg`) },
-    { key: 'woodside-historic', name: 'Woodside Historic', files: range(15).map(i => `gallery/woodside-historic/${i}.jpg`) },
-    { key: 'woodside-tuscan', name: 'Woodside Tuscan', files: range(9).map(i => `gallery/woodside-tuscan/${i}.jpg`) },
-    { key: 'portola-valley', name: 'Portola Valley 1', files: range(3).map(i => `gallery/portola-valley/${i}.jpg`) },
-    { key: 'portola-valley-2', name: 'Portola Valley 2', files: range(6).map(i => `gallery/portola-valley-2/${i}.jpg`) },
-    { key: 'beverly-hills', name: 'Beverly Hills', files: range(4).map(i => `gallery/beverly-hills/${i}.jpg`) },
-    { key: 'palo-alto', name: 'Palo Alto', files: range(3).map(i => `gallery/palo-alto/${i}.jpg`) }
+    { key: 'saratoga', name: 'Saratoga Bamboo House', files: range(9).map(i => `gallery/saratago-bamboo-house/${i}_ciqu_construction_califonia_luxry.webp`) },
+    { key: 'bridge', name: 'Bridge House', files: range(3).map(i => `gallery/bridge-house/${i}-ciqu_construction_califonia_luxry.webp`) },
+    { key: 'woodside-adu', name: 'Woodside ADU', files: range(17).map(i => `gallery/phillips-adu/${i}.webp`) },
+    { key: 'palo-alto-remodel', name: 'Palo Alto Remodel', files: range(9).map(i => `gallery/palo-alto-remodel/${i}_ciqu_construction_luxury_home_building.webp`) },
+    { key: 'atherton', name: 'Atherton Contemporary', files: range(10).map(i => `gallery/atherton-contemporary/${i}.webp`) },
+    { key: 'woodside-historic', name: 'Woodside Historic', files: range(15).map(i => `gallery/woodside-historic/${i}.webp`) },
+    { key: 'woodside-tuscan', name: 'Woodside Tuscan', files: range(9).map(i => `gallery/woodside-tuscan/${i}.webp`) },
+    { key: 'portola-valley', name: 'Portola Valley 1', files: range(3).map(i => `gallery/portola-valley/${i}.webp`) },
+    { key: 'portola-valley-2', name: 'Portola Valley 2', files: range(6).map(i => `gallery/portola-valley-2/${i}.webp`) },
+    { key: 'beverly-hills', name: 'Beverly Hills', files: range(4).map(i => `gallery/beverly-hills/${i}.webp`) },
+    { key: 'palo-alto', name: 'Palo Alto', files: range(3).map(i => `gallery/palo-alto/${i}.webp`) }
   ];
   const INTERIOR_LABELS = ['kitchen', 'bathroom', 'kitchen', 'bedroom', 'living room', 'dining', 'study', 'exterior',
     'primary bathroom', 'living room', 'dining room', 'aerial pool', 'exterior', 'stair detail', 'kitchen counter', 'pool', 'tub', 'bedroom', 'dining'];
-  const INTERIORS = INTERIOR_LABELS.map((label, i) => ({ src: `${IMG}full-service/${i + 1}.jpg`, cap: label }));
+  const INTERIORS = INTERIOR_LABELS.map((label, i) => ({ src: `${IMG}full-service/${i + 1}.webp`, cap: label }));
 
-  const toItems = p => p.files.map((f, i) => ({ src: IMG + f, cap: p.name, key: p.key, n: i + 1 }));
+  const toItems = p => p.files.map((f, i) => ({ src: IMG + f, thumb: IMG + 'thumbs/' + f, cap: p.name, key: p.key, n: i + 1 }));
   // "All" interleaves the projects so the first screen of photos shows variety
   const ALL = (() => {
     const lists = PROJECTS.map(toItems), out = [];
@@ -103,7 +103,7 @@
   // interiors reel — two rows travelling in opposite directions
   const reelA = $('.reel__row--a'), reelB = $('.reel__row--b');
   if (reelA && reelB) {
-    const card = (it, i) => `<figure class="reel__item" data-cursor="view" data-reel="${i}"><img src="${it.src}" alt="CIQU interior — ${it.cap}" loading="lazy"><span>${it.cap}</span></figure>`;
+    const card = (it, i) => `<figure class="reel__item" data-cursor="view" data-reel="${i}"><img src="${it.src}" alt="CIQU interior — ${it.cap}" loading="lazy" decoding="async"><span>${it.cap}</span></figure>`;
     const a = INTERIORS.slice(0, 10), b = INTERIORS.slice(10);
     reelA.innerHTML = a.map((it, i) => card(it, i)).join('') + a.slice(0, 3).map((it, i) => card(it, i)).join('');
     reelB.innerHTML = b.map((it, i) => card(it, i + 10)).join('') + b.slice(0, 4).map((it, i) => card(it, i + 10)).join('');
@@ -118,7 +118,7 @@
     if (reset) { grid.innerHTML = ''; gShown = 0; gList = list; }
     const next = gList.slice(gShown, gShown + PAGE);
     grid.insertAdjacentHTML('beforeend', next.map((it, i) =>
-      `<figure class="gitem2 is-new" data-cursor="view" data-g="${gShown + i}" style="animation-delay:${(i % PAGE) * 45}ms"><img src="${it.src}" alt="${it.cap} — photo ${it.n}" loading="lazy"><figcaption>${it.cap} · ${String(it.n).padStart(2, '0')}</figcaption></figure>`).join(''));
+      `<figure class="gitem2 is-new" data-cursor="view" data-g="${gShown + i}" style="animation-delay:${(i % PAGE) * 45}ms"><img src="${it.thumb || it.src}" alt="${it.cap} — photo ${it.n}" loading="lazy" decoding="async"><figcaption>${it.cap} · ${String(it.n).padStart(2, '0')}</figcaption></figure>`).join(''));
     gShown += next.length;
     moreWrap.hidden = gShown >= gList.length;
     if (hasGSAP) ScrollTrigger.refresh();
@@ -241,14 +241,19 @@
   const slides = $$('.hero__slide'), heroCur = $('.hero__cur'), heroProg = $('.hero__prog span');
   let slideIdx = 0, slideTween = null, slideTimer = null;
   const SLIDE_MS = 6500;
+  // slides 2-5 carry data-src; fetch one only when it is next in line
+  const loadSlide = i => { const im = slides[i] && $('img', slides[i]); if (im && im.dataset.src && !im.src) { im.src = im.dataset.src; im.removeAttribute('data-src'); } };
   const goSlide = i => {
     slides[slideIdx].classList.remove('is-active');
     slideIdx = (i + slides.length) % slides.length;
+    loadSlide(slideIdx);
     slides[slideIdx].classList.add('is-active');
+    loadSlide((slideIdx + 1) % slides.length);
     heroCur.textContent = String(slideIdx + 1).padStart(2, '0');
     runSlideTimer();
   };
   function runSlideTimer() {
+    loadSlide((slideIdx + 1) % slides.length);
     if (hasGSAP) {
       if (slideTween) slideTween.kill();
       slideTween = gsap.fromTo(heroProg, { scaleX: 0 }, { scaleX: 1, duration: SLIDE_MS / 1000, ease: 'none', onComplete: () => goSlide(slideIdx + 1) });
@@ -382,7 +387,7 @@
   const countEl = $('.loader__count'), barEl = $('.loader__bar span');
 
   // real loading progress: fonts + hero image + logo
-  const assets = [slides[0] && $('img', slides[0]).src, IMG + 'ciqu_construction_logo5.png', IMG + 'home/slider_a.jpg'].filter(Boolean);
+  const assets = [slides[0] && $('img', slides[0]).src, IMG + 'ciqu_construction_logo5.png', IMG + 'home/slider_a.webp'].filter(Boolean);
   let loaded = 0;
   const total = assets.length + 1;
   const ready = new Promise(res => {
